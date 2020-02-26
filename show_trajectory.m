@@ -145,7 +145,7 @@ end
 % plot3(circle4(:,1),circle4(:,2),circle4(:,3),base(:,1),base(:,2),base(:,3),upd(:,1),upd(:,2),upd(:,3));
 % xlabel('X,m'); ylabel('Y,m'); zlabel('Z,m');
 
-figure
+% figure
 plot_circles([base(:,1), circle1(:,1), circle4(:,1)],[base(:,2), circle1(:,2), circle4(:,2)],[base(:,3), circle1(:,3), circle4(:,3)])
 
 
