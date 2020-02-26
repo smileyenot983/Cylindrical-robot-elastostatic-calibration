@@ -13,6 +13,10 @@ robot.links = [0.675 0.35 0.30 5;       % link 1
                1.15 0.25 0.20 5;       % link 3
                1.15 0.25 0.20 5];       % link 4
                
+robot.links = [0.6 0.5 0.30 5;       % link 1
+               0.3 0.5 0.30 5;       % link 2
+               1.2 0.4 0.20 5;       % link 3
+               1.2 0.4 0.20 5];       % link 4
                
 % joint stiffness
 % robot.Kq = 1e6 * [2 2 2 1 1 1];
@@ -43,8 +47,8 @@ end
 %                 -3/4*pi,3/4*pi;
 %                 -3/4*pi,3/4*pi];
 
-  robot.limits = [0,1;
-                  deg2rad([-179,179]);
-                  0,1;];          
+  robot.limits = [0,0.3;
+                  deg2rad([-180,180]);
+                  0,0.3;];          
 robot.orientation = false;
 

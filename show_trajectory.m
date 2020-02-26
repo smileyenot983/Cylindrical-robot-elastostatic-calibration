@@ -39,7 +39,9 @@ for i = 1:iter
     % accumulate sum    
     S1 = S1 + A' * A;
     S2 = S2 + A' * dt;    
-    S3 = S3 + A' * (rand(N,1)*1e-6);
+    S3 = S3 + A' * (rand(N,1)*1e-5);
+    
+    
 end
 
 % results
