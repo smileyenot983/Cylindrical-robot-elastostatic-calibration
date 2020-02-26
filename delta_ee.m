@@ -4,14 +4,14 @@ function [dt,dq] = delta_ee(q,theta,force,param)
    
    % simplify for joints if needs
    if ~param.use_links
-       tmp = zeros(6,param.joint_no);
+       tmp = zeros(6,param.joint_no); 
        for i = 1:param.joint_no
            tmp(:,i) = J(:,7*i-6); %we only consider jacobians for joints
        end
        J = tmp;
    end   
    
-   % stiffness matrix
+   % stiffness matrix(if links are flexible)
    if param.use_links
        K = K_full(param);
    else
@@ -20,7 +20,7 @@ function [dt,dq] = delta_ee(q,theta,force,param)
       
    % joint displacement
    %J' * force
-   dq = K \ (J' * force);  
+   dq = K \ (J' * force);
    
    % gravity
    if ~param.use_links && param.use_gravity
@@ -30,7 +30,8 @@ function [dt,dq] = delta_ee(q,theta,force,param)
    end
    
    % end-effector displacement
-   dt = J * dq;   
+   dt = J * dq;
+ 
    if ~param.use_links
        tmp = zeros(param.theta_no,1);
        for i = 1:param.joint_no
@@ -38,5 +39,5 @@ function [dt,dq] = delta_ee(q,theta,force,param)
        end
        dq = tmp;
    end
-   %dt = ee_trans(q, dq + theta, param) - ee_trans(q,theta,param);
+%    dt = ee_trans(q, dq + theta, param) - ee_trans(q,theta,param);
 end

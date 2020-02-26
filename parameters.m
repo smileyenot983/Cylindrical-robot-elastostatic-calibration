@@ -19,7 +19,7 @@ robot.links = [0.675 0.35 0.30 5;       % link 1
 robot.Kq = 1e6 *[1    2    0.5];
 
 % stiffness mode
-robot.use_links = true;
+robot.use_links = false;
 robot.use_gravity = false;
 
 % joints
@@ -43,8 +43,8 @@ end
 %                 -3/4*pi,3/4*pi;
 %                 -3/4*pi,3/4*pi];
 
-  robot.limits = [0,0.3;
+  robot.limits = [0,1;
                   deg2rad([-179,179]);
-                  0,0.3;];          
+                  0,1;];          
 robot.orientation = false;
 

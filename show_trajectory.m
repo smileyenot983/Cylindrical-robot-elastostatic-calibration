@@ -8,32 +8,42 @@ theta = zeros(robot.theta_no,1);
 N = robot.joint_no; 
 S1 = zeros(N, N);
 S2 = zeros(N, 1);
-
+S3 = zeros(N, 1);
 iter = 30;   % nomber or experiments
 
 robot.tool(1:3,4) = [0;0.1;0.1];
 
 % experiments
 for i = 1:iter
-    % random force values
+    % make a vector size = 6; 1-3 - forces, 4-6 - torques
     force = zeros(6,1);
-    force(1:3) = 2*rand(3,1)-1;    
+    % make forces equal to values in diapozone:(-1,1)
+    force(1:3) = 2*rand(3,1)-1;   
+    
     force = (force / norm(force)) * 1000;    
-    % random joint values
-    q0 = (pi/2)*(2*rand(robot.joint_no,1) - 1);    
+    % random joint values for all joints    
+    %prismatic
+    q0 = (pi/2)*(2*rand - 1);
+    %revolute
+    q1 = rand ;
+    %prismatic
+    q2 = rand ;
+    q = [q0,q1,q2];
     % displacement    
-    [dt,dq] = delta_ee(q0,theta,force,robot);    
+    [dt,dq] = delta_ee(q,theta,force,robot);
+    
     % use only cartesian displacement
     dt = dt(1:3);
-    A = get_A(q0, theta, force, robot);  
+    A = get_A(q, theta, force, robot);  
     
     % accumulate sum    
     S1 = S1 + A' * A;
-    S2 = S2 + A' * dt;      
+    S2 = S2 + A' * dt;    
+    S3 = S3 + A' * (rand(N,1)*1e-6);
 end
 
 % results
-ks = S1 \ S2;          % compliance
+ks = S1 \ S2 + S1 \ S3;          % compliance
 
 stiffness = 1 ./ ks  % stiffness
 
@@ -50,7 +60,7 @@ YLVL = 0;
 
 
 m = configuration(CONF);
-m2 = configuration(CONF2);
+% m2 = configuration(CONF2);
 
 force = [-440;-1370;-635;0;0;0];
 
@@ -73,9 +83,9 @@ for i = 1:NP
     %conf(4:6) = [0;0;0];
     JSh(:,i) = conf;
     
-    conf = IK([XX(i);YLVL;YY(i);0;0;0], m2, robot);
-    %conf(4:6) = [0;0;0];
-    JSv(:,i) = conf;    
+%     conf = IK([XX(i);YLVL;YY(i);0;0;0], m2, robot);
+%     %conf(4:6) = [0;0;0];
+%     JSv(:,i) = conf;    
 end
 
 base = [XX',YY',ZLVL*ones(NP,1)];
